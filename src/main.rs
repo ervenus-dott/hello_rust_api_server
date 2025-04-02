@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_web::{App, HttpResponse, HttpServer, Responder, get, post, web};
 const PIG_COUNT: i32 = 28;
 // const TAU: f32 = 6.28;
@@ -33,7 +34,9 @@ async fn main() -> std::io::Result<()> {
     goat_count += 2000000000;
     println!("we have {goat_count} goats and {apple_count} apples and {PIG_COUNT} pigs");
     HttpServer::new(|| {
+        let cors = Cors::permissive();
         App::new()
+            .wrap(cors)
             .service(hello)
             .service(goats)
             .service(echo)
